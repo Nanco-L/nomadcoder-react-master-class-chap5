@@ -3,7 +3,8 @@ import Router from "./Router";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
-import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atoms";
 
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -67,14 +68,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-    const [isDark, setIsDark] = useState(false);
-    const toggleDart = () => setIsDark((current) => !current);
+    const isDark = useRecoilValue(isDarkAtom);
     return (
         <>
             <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-                {/* <button onClick={toggleDart}>Toggle Mode</button> */}
                 <GlobalStyle />
-                <Router toggleDark={toggleDart} isDark={isDark} />
+                <Router />
                 <ReactQueryDevtools initialIsOpen />
             </ThemeProvider>
         </>
